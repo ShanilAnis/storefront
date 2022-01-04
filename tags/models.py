@@ -12,5 +12,5 @@ class Tag(models.Model):
 class TaggedItem(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete = models.CASCADE)
-    object_id = models.PositiveSmallIntegerField()
+    object_id = models.PositiveIntegerField()
     contect_object = GenericForeignKey()

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import fields
 from django.db.models.base import Model
 from django.db.models.deletion import CASCADE, PROTECT
 
@@ -8,8 +9,9 @@ class Promotion(models.Model):
     description = models.CharField(max_length=255)
     discount = models.FloatField()
 
-class Collections(models.Model):
+class Collection(models.Model):
     title = models.CharField(max_length=255)
+    featured_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
 
 
 class Product(models.Model):
@@ -18,7 +20,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
-    Collection = models.ForeignKey(Collections, on_delete=models.PROTECT)
+    Collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
     promotions = models.ManyToManyField(Promotion)
 
 class Customer(models.Model):
@@ -64,6 +66,7 @@ class Address(models.Model):
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE, primary_key=True)
+    zip = models.CharField(max_length=255)
 
 class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
